@@ -1,0 +1,138 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/styledb.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Account Dashboard</title>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+          <h2>Checking Acc... 9413</h2>
+          <span>EVERYDAY FUNDS</span>
+      
+          <h1 id="currentbal">$0.00</h1>
+          <p>Current Balance</p>
+      
+          <div class="card-details">
+            <div class="card-section">
+              <h4>Previous Week</h4>
+              <span>$7,856.40</span>
+            </div>
+            <div class="card-section">
+              <h4>Today's Balance</h4>
+              <span>$780.00</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <h4><button onclick="withdraw('checking');">Withdraw Funds</button></h4>
+            <h4><button onclick="deposit('checking');">Deposit Funds</button></h4>
+          </div>
+        </div>
+        <!--   End of card 1 -->
+        <div class="card">
+          <h2>Savings Acc... 3522</h2>
+          <span>DO NOT TOUCH THIS MONEY</span>
+      
+          <h1 id="currentsavbal">$0.00</h1>
+          <p>Pending Balance</p>
+      
+          <div class="card-details">
+            <div class="card-section">
+              <h4>Previous Week</h4>
+              <span>$5,050.45</span>
+            </div>
+            <div class="card-section">
+              <h4>Today's Balance</h4>
+              <span>$500.00</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <h4><button onclick="withdraw('savings');">Withdraw Funds</button></h4>
+            <h4><button onclick="deposit('savings');">Deposit Funds</button></h4>
+          </div>
+        </div>
+        <!--   End of card 2 -->
+      </div>
+      <!-- End of container -->
+</body>
+<script>
+        var balance = 100;
+        var savbalance = 500;
+        var currentbal = document.getElementById('currentbal');
+        currentbal.innerHTML = '$' + balance.toFixed(2);
+        var currentsavbal = document.getElementById('currentsavbal');
+        currentsavbal.innerHTML = '$' + savbalance.toFixed(2);
+
+          function get_balance(account) {
+            if (account === 'savings') {
+                alert('Your Savings balance is: ' + savbalance.toFixed(2));
+            } else {
+                alert('Your Checking balance is: ' + balance.toFixed(2));  
+            }
+            //atm();
+          }
+          function deposit(account) {
+              var deposit = parseFloat(prompt('How much would you like to deposit?'));
+              if (isNaN(deposit) || deposit === '') {
+                  alert('Error: please enter a number!');
+                  make_deposit();
+              } else {
+                  if (account === 'savings') {
+                    savbalance += deposit;
+                    currentsavbal.innerHTML = '$' + savbalance.toFixed(2);
+                    get_balance('savings');
+                  } else {
+                    balance += deposit;
+                    currentbal.innerHTML = '$' + balance.toFixed(2);
+                    get_balance('checking');
+                  }
+              }
+          }
+          function withdraw(account) {
+              var withdrawal = parseFloat(prompt('How much would you like to withdrawal?'));
+              if (isNaN(withdrawal) || withdrawal === '') {
+                  alert('Please enter a number!');
+                  make_withdrawal();
+              } else {
+                if (account === 'savings') {
+                    savbalance -= withdrawal;
+                    currentsavbal.innerHTML = '$' + savbalance.toFixed(2);
+                    get_balance('savings');
+                  } else {
+                    balance -= withdrawal;
+                    currentbal.innerHTML = '$' + balance.toFixed(2);
+                    get_balance('checking');
+                  }
+              } 
+          }
+          function error() {
+              alert('Error: accepted numbers are 1 through 4.');
+              atm();
+          }
+          function exit() {
+              var confirm_leave = confirm('You have selected exit.');
+              if (confirm_leave) {
+                  window.close();
+              } else {
+                  atm();
+              }
+          }
+          function atm() {
+              var choice = parseInt(prompt('Select a choice 1.) Balance 2.) Deposit 3.) Withdrawal 4.) Exit')); //prompt user for choice.
+              if (choice === 1) {
+                  get_balance('checking');
+              } else if (choice === 2) {
+                  make_deposit();
+              } else if (choice === 3) {
+                  make_withdrawal();
+              } else if (choice === 4) {
+                  exit();
+              } else {
+                  error();
+              }
+          }
+      </script>
+</html>
